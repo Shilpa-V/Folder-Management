@@ -10,10 +10,43 @@ namespace FolderManagement.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IFolderRepository _folderRepository;
+
+        public HomeController(IFolderRepository folderRepository)
+        {
+            _folderRepository = folderRepository;
+        }
+        public ViewResult Index()
+        {
+            var model = _folderRepository.GetAllFolders();
+            return View(model);
+        }
+
+        [HttpGet]
+        public ViewResult Create()
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Create(Folder model)
+        {
+            if (ModelState.IsValid)
+            {
+                Folder newFolder = new Folder
+                {
+                    Name = model.Name,
+                    ParentFolderId = model.ParentFolderId,
+                };
+
+                _folderRepository.Add(newFolder);
+                return RedirectToAction("index");
+            }
+            return View();
+        }
+
+
+
 
         public IActionResult Privacy()
         {
