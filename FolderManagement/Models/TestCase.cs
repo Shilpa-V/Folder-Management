@@ -22,8 +22,9 @@ namespace FolderManagement.Models
         [Required]
         public int StepCount { get; set; }
 
-        [ForeignKey("FolderId")]
-        public Folder Folder { get; set; }
+        //[ForeignKey("FolderId")]
+        
+        public int ? FolderId{ get; set; }
 
 
 

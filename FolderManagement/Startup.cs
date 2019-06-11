@@ -37,6 +37,7 @@ namespace FolderManagement
             services.AddDbContextPool<FolderDbContext>(opt => opt.UseSqlServer(_config.GetConnectionString("FolderDBConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IFolderRepository, SQLFolderRepository>();
+            services.AddScoped<ITestCaseRepository, SQLFolderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FolderManagement.Models
 {
-    public class SQLFolderRepository : IFolderRepository
+    public class SQLFolderRepository : IFolderRepository, ITestCaseRepository
     {
         private readonly FolderDbContext context;
 
@@ -20,14 +20,41 @@ namespace FolderManagement.Models
             return folder;
         }
 
+        public TestCase Add(TestCase testCase)
+        {
+            context.TestCases.Add(testCase);
+            context.SaveChanges();
+            return testCase;
+        }
+
+        public void DeleteConfirm(int Id)
+        {
+            TestCase deleteTestCase = new TestCase() { TestCaseId = Id };
+            context.Entry(deleteTestCase).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            context.SaveChanges();
+        }
+
         public IEnumerable<Folder> GetAllFolders()
         {
             return context.Folders;
         }
 
-        public IEnumerable<TestCase> GetAllTestCases(int Id)
+        public IEnumerable<TestCase> GetAllTestCases(int ? Id)
         {
-            return context.TestCases.Where(t => t.Folder.FolderId == Id);
+            if (Id != null)
+                return context.TestCases.Where(t => t.FolderId == Id);
+            else
+                return context.TestCases;
         }
+
+        public TestCase GetTestCaseById(int Id)
+        {
+            return context.TestCases.FirstOrDefault(t => t.TestCaseId == Id);
+        }
+
+        //public List<Folder> GetFolderList()
+        //{
+        //    return context.Folders.ToList();
+        //}
     }
 }

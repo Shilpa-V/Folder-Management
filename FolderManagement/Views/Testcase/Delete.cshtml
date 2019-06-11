@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TestCase>
+
+@{
+    ViewBag.Title = "Delete TestCase";
+}
+
+
+
+<hr />
+<h3>TestCase List</h3>
+<hr />
+
+<div class="card-deck">
+
+    @foreach (var testcase in Model)
+    {
+
+
+        <div class="card m-3" style="min-width:18rem; max-width:30.5%">
+            <div class="card-header">
+                <h2>Are you sure to delete this TestCase</h2>
+                <hr/>
+                <h3> @testcase.Name</h3>
+            </div>
+
+            <div class="card-footer text-center">
+                <a asp-action="ConfirmDelete" asp-controller="TestCase"
+                   asp-route-id="@testcase.TestCaseId" class="btn btn-primary m-1">Yes</a>
+                <a asp-action="Index" asp-controller="Home"
+                  class="btn btn-primary m-1">Back without Delete</a>
+
+            </div>
+        </div>
+
+    }
+</div>
